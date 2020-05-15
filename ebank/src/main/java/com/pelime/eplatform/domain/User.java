@@ -2,6 +2,8 @@ package com.pelime.eplatform.domain;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -25,6 +27,9 @@ public class User {
     @Cascade(CascadeType.SAVE_UPDATE) //级联
     private Set<Role> roles = new HashSet<Role>();
 
+    @OneToOne(cascade = javax.persistence.CascadeType.ALL)
+    @Fetch(value = FetchMode.SELECT)
+    @PrimaryKeyJoinColumn
     private UserState userState;
 
     public Long getId() {
@@ -75,7 +80,6 @@ public class User {
         this.roles = roles;
     }
 
-    @OneToOne(cascade = javax.persistence.CascadeType.ALL,mappedBy = "user",fetch = FetchType.LAZY)
     public UserState getUserState() {
         return userState;
     }
