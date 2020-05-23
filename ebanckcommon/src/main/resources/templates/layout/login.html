@@ -1,0 +1,214 @@
+<html>
+<head>
+    <title>login</title>
+    <link rel="stylesheet" href="frozen.css">
+    <meta charset="utf-8">
+    <meta name = "viewport" content = "width = device-width,initial-scale = 1.0, maximum-scale = 1.0, user-scalable = 0" />
+    <script src="http://static.service.sqhm.cn/vue.js" type="text/javascript"></script>
+    <script src="/static/theme/js/jquery-2.1.0.js" type="text/javascript"></script>
+    <script src="/static/theme/menu/common.js" type="text/javascript"></script>
+    <script src="/static/theme/menu/index.js" type="text/javascript"></script>
+    <style type="text/css">
+        *{
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+        body{
+            overflow-y: hidden;
+            overflow-x: hidden;
+        }
+        #app{
+            width: 100%;
+            height: 600px;
+            background: -webkit-linear-gradient(left top, #740479 , #224); /* Safari 5.1 - 6.0 */
+
+        }
+        .user_input_sec{
+            width: 100%;
+            /*top:250px;*/
+            height: 150px;
+            position: absolute;
+        }
+        .user_input_sec>.username_box{
+            position: absolute;
+            left: 50%;
+            width: 70%;
+            margin-left: -35%;
+            height: 30px;
+            border-radius: 5px;
+            background-color: #888;
+            border:1px solid #fff;
+            -webkit-box-shadow: 10px 10px 10px rgba(0,0,0,.5);
+            opacity:0.5;
+        }
+        .user_input_sec>.username_box>.username_input{
+            width: 100%;
+            border:0;
+            height: 30px;
+            text-align: center;
+        }
+
+        .user_input_sec>.password_box{
+            position: absolute;
+            top:40px;
+            left: 50%;
+            width: 70%;
+            margin-left: -35%;
+            height: 30px;
+            border-radius: 5px;
+            background-color: #888;
+            border:1px solid #fff;
+            -webkit-box-shadow: 10px 10px 10px rgba(0,0,0,.5);
+            opacity:0.5;
+        }
+        .user_input_sec>.password_box>.password_input{
+            width: 100%;
+            border:0;
+            height: 30px;
+            text-align: center;
+        }
+
+        .user_input_sec>.submit_box{
+            position: absolute;
+            top:80px;
+            left: 50%;
+            width: 70%;
+            margin-left: -35%;
+            height: 30px;
+            border-radius: 5px;
+            border:1px solid #fff;
+
+        }
+        .user_input_sec>.submit_box>.submit_input{
+            width: 100%;
+            background-color: #b14955;
+            border:0;
+            height: 30px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .user_input_sec>.submit_box>.submit_input:active{
+            width: 100%;
+            background-color: #112;
+            border:0;
+            height: 30px;
+            text-align: center;
+            color: #fff;
+        }
+        .bot_text{
+            position: absolute;
+            color:#eee;
+            width: 100%;
+            text-align: center;
+            top:130px;
+            font-size: 14px;
+
+        }
+        .userimg{
+            position: absolute;
+            left:50%;
+            border-radius: 50%;
+            -webkit-box-shadow: 10px 10px 10px rgba(0,0,0,.5);
+        }
+        .appstyle{
+            height: 100vh;
+            margin: 0 auto;
+            background-image: url(/static/theme/image/bg1.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="appstyle">
+        <h1>{{onlode()}}</h1>
+        <img class="userimg" :src="imgsrc" :style="imgstyle">
+        <section class="user_input_sec" :style="secstyle">
+
+            <div class="username_box">
+                <input class="username_input" type="text" name="" placeholder="邮箱/手机号/帐号" v-model="userinfo.username">
+            </div>
+            <div class="password_box">
+                <input class="password_input" type="password" name="" placeholder="请输入密码" v-model="userinfo.password">
+            </div>
+            <div class="submit_box" @click="login()">
+                <input class="submit_input" type="submit" name="" value="登录" @click="login()" :style="loginbutstyle">
+            </div>
+            <div class="bot_text">
+                XXEBANCK
+                <a @click='regester()'>注册</a>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+</body>
+</html>
+
+<script type="text/javascript">
+    var vue=new Vue({
+        el: '#app',
+        data: {
+            scrheight:0,
+            secstyle:'',
+            imgstyle:'',
+            loginbutstyle:'',
+            userinfo:[
+                {
+                    username: '',
+                },
+                {
+                    password: '',
+                }
+
+            ],
+            imgsrc:'/static/theme/image/login-portrait.jpg'
+        },
+        methods: {
+            onlode: function() {
+
+                if(this.scrheight==0)//防止弹出键盘改变尺寸
+                {
+                    this.scrheight=document.documentElement.clientHeight;
+                    android.postheight(this.scrheight);
+                }
+
+                this.appstyle='height:'+this.scrheight+"px;";
+                this.secstyle='top:'+this.scrheight/3+"px;";
+                this.imgstyle='top:'+this.scrheight/18+"px;"+'width:'+this.scrheight/5+"px;"+'height:'+this.scrheight/5+"px;"+'margin-left:-'+this.scrheight/10+"px;";
+            },
+            login: function() {
+                //android.login(this.userinfo.username,this.userinfo.password);
+                var that=this;
+                $.ajax({
+                    url:'/login',
+                    type:'post',
+                    data:{
+                        username:that.userinfo.username,
+                        password:that.userinfo.password
+                    },
+                    success:function (result) {
+                        console.log("登录开始");
+                        if(result=="登录成功"){
+                            window.location.href='/index';
+                        }
+                        else{
+                            that.$message.error(result);
+                        }
+                    }
+                });
+
+
+            },
+            regester: function() {
+               //android.regester();
+            }
+        }
+
+    })
+</script>

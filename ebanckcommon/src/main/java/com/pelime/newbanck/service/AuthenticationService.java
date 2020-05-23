@@ -32,7 +32,7 @@ public class AuthenticationService {
         return user;
     }
 
-    public User regiest(String principals,String password){
+    public User register(String principals,String password){
         User user=dbuser(principals);
         if(user!=null) return null;
         //有限的正则

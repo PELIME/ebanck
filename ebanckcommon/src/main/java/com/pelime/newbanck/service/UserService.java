@@ -10,7 +10,7 @@ public class UserService {
     @Autowired
     UserDao userDao;
 
-    public User regiest(User user){
+    public User register(User user){
         return userDao.save(user);
     }
 }
