@@ -27,6 +27,11 @@ public class HomeIndexController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String defaultLogin() {
+        return "desktop/login";
+    }
+
+    @RequestMapping(value = "/plogin", method = RequestMethod.GET)
+    public String phoneLogin() {
         return "login";
     }
 
