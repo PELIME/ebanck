@@ -4,6 +4,7 @@
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
+      <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/static/css/bootstrap413.min.css">
@@ -14,7 +15,6 @@
       <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
       <script src="http://static.service.sqhm.cn/vue.js" type="text/javascript"></script>
       <script src="/static/theme/js/jquery-2.1.0.js" type="text/javascript"></script>
-
       <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 
     <title>Login</title>
@@ -57,7 +57,7 @@
                     </label>
                       <label class="form-check-label">记住密码</label>
                       
-                      <label class="forgot-password"><a href="#">忘记密码?</a></label>
+                      <label class="forgot-password"><a href="#" @click="forget">忘记密码?</a></label>
 
                     </div>
                   
@@ -66,7 +66,7 @@
                   </div>
              <!-- End Loging form -->
 
-          </div>注册请联系 <a href="mailto:1658816047@qq.com" target="_blank" title="邮箱">PELIME@邮箱</a>
+          </div>注册请联系管理员  <a href="tel://13541210431" target="_blank" title="电话">电话</a>
         </div>
         </div>
     </div>
@@ -76,9 +76,38 @@
             data:{
                 username:'',
                 password:'',
-                remember:true,
+                remember:false,
+                encode:false
+            },
+            beforeMount(){
+                var storage=window.localStorage;
+                this.username=storage.getItem("username");
+                this.password=storage.getItem("epwd");
+                this.remember=storage.getItem("remember");
+                if(this.password&&this.password!=""){
+                    this.encode=true;
+                }
             },
             methods:{
+                forget(){
+                    this.$message({
+                        type:'info',
+                        message:"请联系管理员找回密码"
+                    });
+                },
+                rememberMe(savePwd){
+                    var storage=window.localStorage;
+                    if(this.remember){
+                        storage.setItem("username",this.username);
+                        storage.setItem("epwd",savePwd);
+                        storage.setItem("remember",this.remember);
+                    }
+                    else{
+                        storage.removeItem("username");
+                        storage.removeItem("epwd");
+                        storage.removeItem("remember");
+                    }
+                },
                 login:function(){
                     var that=this;
                     $.ajax({
@@ -86,11 +115,14 @@
                         type:'post',
                         data:{
                             username:that.username,
-                            password:that.password
+                            password:that.password,
+                            remember:that.remember,
+                            encode:that.encode
                         },
                         success:function(result){
                             if(result.code=="000000"){
-                                window.location="/wae";
+                                that.rememberMe(result.body);
+                                window.location="/index";
                             }
                             else {
                                 that.$message({

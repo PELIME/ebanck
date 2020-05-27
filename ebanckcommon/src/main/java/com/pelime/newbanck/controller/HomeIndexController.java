@@ -8,7 +8,7 @@ public class HomeIndexController {
 
 
 
-    @RequestMapping("index")
+    @RequestMapping({"index","/"})
     public String index(){
         return "index";
     }
