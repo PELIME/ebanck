@@ -53,7 +53,7 @@ public class CustomRealm extends AuthorizingRealm {
 //        }
 
         //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配
-        return new SimpleAuthenticationInfo(userName, user.getPassword(),
+        return new SimpleAuthenticationInfo(user, user.getPassword(),
                 ByteSource.Util.bytes(userName + StaticCommon.SALT), getName());
     }
 }

@@ -59,4 +59,10 @@ public class AuthController {
         userService.register(user);
         return new EbanckHttpEntity(EbanckCode.USER_EXISTS,"注册成功");
     }
+    @RequestMapping(value = "/userinfo")
+    public Object userinfo(){
+        Object result=SecurityUtils.getSubject().getPrincipal();
+        return result;
+    }
+
 }
