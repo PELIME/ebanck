@@ -3,6 +3,7 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
@@ -28,12 +29,12 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">EBANK</a>
+            <a class="navbar-brand" href="/index">EBANK</a>
         </div>
         <div class="collapse navbar-collapse" id="example-navbar-collapse">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="/wae">短信群发</a></li>
-                <li><a href="http://www.lianhanghao.com/index.php/Index/index/p/11.html" target="_blank">行号查询</a></li>
+                <li><a href="http://www.lianhanghao.com" target="_blank">行号查询</a></li>
             </ul>
         </div>
     </div>
@@ -66,6 +67,7 @@
                 <p>
                     <a class="btn btn-default" :href="telhref"  v-show="ready" @click="sendMsg('Android')" >发送短信</a>
                     <!--<a class="btn btn-primary"  :href="telhref" :class="{'disabled':ready}" @click="sendMsg('Android')">安卓手机发送短信</a>-->
+                    <a class="btn btn-primary"  :href="telhref" :class="{'disable':ready}" @click="sendMsg('Android')">发送短信</a>
                 </p>
             </div>
         </div>
@@ -97,7 +99,7 @@
                     return;
                 }
                 var that=this;
-                const loading = this.$loading({
+                var loading = this.$loading({
                     lock: true,
                     text: '构建链接中',
                     spinner: 'el-icon-loading',
