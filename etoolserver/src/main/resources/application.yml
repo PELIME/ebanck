@@ -1,0 +1,29 @@
+etool:
+  config:
+    defaultSalt: etse
+server:
+  port: 8082
+spring:
+  application:
+    name: etool-server
+  resources:
+    static-locations: classpath:/static
+  freemarker:
+    template-loader-path: classpath:/templates/
+    suffix: .html
+    content-type: text/html
+    charset: UTF-8
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/etool_dev?autoReconnect=true&useSSL=false&useUnicode=yes&characterEncoding=utf8
+    username: root
+    password: 123456
+  jpa:
+    #    show-sql: true
+    hibernate:
+      ddl-auto: update
+    open-in-view: false # 禁用 OSIV <Spring Boot中默认启用了OSIV(Open Session in View)>
+  http:
+    encoding:
+      charset: utf-8
+      enabled: true
