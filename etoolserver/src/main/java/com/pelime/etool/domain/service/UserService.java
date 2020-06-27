@@ -1,5 +1,6 @@
 package com.pelime.etool.domain.service;
 
+import com.pelime.etool.domain.dao.RoleDao;
 import com.pelime.etool.domain.dao.UserDao;
 import com.pelime.etool.domain.model.Role;
 import com.pelime.etool.domain.model.User;
@@ -23,18 +24,20 @@ public class UserService {
     @Autowired
     UserDao userDao;
 
+    @Autowired
+    RoleDao roleDao;
+
     public Boolean isExist(Integer id){
-        return userDao.findById(id)==null;
+        return userDao.findById(id)!=null;
     }
 
     public Boolean isExist(String username){
-        return userDao.findByUsername(username)==null;
+        return userDao.findByUsername(username)!=null;
     }
 
     public User add(User user){
-        Role role=new Role();
-        role.setName("user");
-        role.setDescription("默认角色");
+        //获取默认角色
+        Role role=roleDao.findByName("user");
         return this.add(user,role);
     }
 
@@ -47,5 +50,9 @@ public class UserService {
     public User add(User user,List<Role> roles){
         user.setRoles(roles);
         return userDao.save(user);
+    }
+
+    public Role getRole(String name){
+        return roleDao.findByName(name);
     }
 }
